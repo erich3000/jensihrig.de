@@ -16,9 +16,7 @@
    		<meta name="keywords" lang="fr" content="Jens Ihrig, Karlsruhe, FH Heidelberg,Web-development">
 		
 		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet" />
-		<script src="js/jquery.min.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/init.js"></script>
+		<script src="js/combined.js"></script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -151,31 +149,8 @@
 			</div>
 			
 			<script>
-				
-				function mailto() {
-				  var e = '';
-				  ML="m:sa.eit@ldkohpjrng";
-				  MI="03697<1595;7@<><278?5A26=@6B4:5";
-				
-				  for(j=0;j<MI.length;j++){
-				    e+=ML.charAt(MI.charCodeAt(j)-48);
-				  }
-				  return e;
-				}
-				
-				function go() {
-					document.location.href=mailto();
-					return false;
-				}
-				
-				$('#mail').click(function() {go();});
-				
-				
-				
-				
+				$('#mail').click(function() {go();});	
 			</script>
-			
-			
 
 	</body>
 </html>

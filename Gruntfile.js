@@ -29,31 +29,19 @@ module.exports = function(grunt) {
         },
   
     },
-
-    cssmin: {
-      combine: {
-        files: {
-			'css/jensihrig.min.css': [
-				'css/jensihrig.css'		
-			]	
-        }
-      }
-    },
-
-    jshint: {
-      beforeconcat: ['javascripts/app.js']
-    },
-
-    uglify: {
-      build: {
-      	 files: {
-			'js/deploy/jensihrig.min.js' : 'js/_src/jensihrig.js'
-        }
-
-      }
-    },
-   
-    imagemin: {
+ 
+     imageoptim: {
+	  'css-sprites': {
+	    options: {
+	      jpegMini: false,
+	      imageAlpha: true,
+	      quitAfter: true
+	    },
+	    src: ['css']
+	  },	 
+	},
+	
+	imagemin: {
   
       'images': {
         files: [
@@ -67,8 +55,41 @@ module.exports = function(grunt) {
       },
    
    },
-   
-   
+
+ 	 uglify: {
+      build: {
+      	 files: {
+			'js/_tmp/init.min.js' : 'js/_src/init.js',
+			'js/_tmp/app.min.js' : 'js/_src/app.js'
+        }
+
+      }
+    },
+
+	 concat: {
+	  dist: {
+	  	files: {
+			'js/combined.js' : 
+				[
+				      'js/vendor/jquery.min.js',
+				      'js/vendor/skel.min.js',
+				      'js/_tmp/init.min.js',
+				      'js/_tmp/app.min.js'	      
+				]
+	   },
+	
+	  }
+	},
+
+    cssmin: {
+      combine: {
+        files: {
+			'css/jensihrig.min.css': [
+				'css/jensihrig.css'		
+			]	
+        }
+      }
+    },
 
 	'ftp-deploy': {
 
@@ -90,7 +111,7 @@ module.exports = function(grunt) {
 		    },
 		    src: 'js',
 		    dest: 'home/js',
-		    exclusions: ['js/_source/**/','js/**/.DS_Store']
+		    exclusions: ['js/_src*','js/_tmp*','js/vendor*','**/.DS_Store']
 	  },  
 	  'images': {
 		    auth: {
@@ -100,7 +121,7 @@ module.exports = function(grunt) {
 		    },
 		    src: 'images',
 		    dest: 'home/images',
-		    exclusions: ['images/icons/**','images/**/.DS_Store']
+		    exclusions: ['images/icons*','images/**/.DS_Store']
 	  },
 	  'index': {
 		    auth: {
@@ -110,52 +131,11 @@ module.exports = function(grunt) {
 		    },
 		    src: '.',
 		    dest: 'home',
-		    exclusions: ['/.git','.git/**','.ftppass','.gitignore','.project','index.php','Gruntfile.js','package.json','pinterest-f3d1c.html']
+		    exclusions: ['.git*','.sass-cache*','css*','images*','js*','node_modules*','.ftppass','.gitignore','.project','index.php','Gruntfile.js','package.json','pinterest-f3d1c.html']
 	  },
-	  
-	  
-	  
-	  
-	  
 
 	},
-	
-	watch: {
-      options: {
-        livereload: false
-      },
-      scripts: {
-        files: ['js/jensihrig.js'],
-        tasks: ['uglify'],
-        options: {
-          spawn: false
-        }
-      },
-      css: {
-        files: ['css/jensihrig.css'],
-        tasks: ['cssmin'],
-        options: {
-          spawn: false
-        }
-      },
-      images: {
-        files: ['images/**/*.{png,jpg,gif}', 'images/*.{png,jpg,gif}'],
-        tasks: ['imagemin'],
-        options: {
-          spawn: false
-        }
-      }
-    },
-
-    connect: {
-      server: {
-        options: {
-          port: 8000,
-          base: '.'
-        }
-      }
-    },
-    
+ 
     notify: {
 		buildTask: {
 		  options: {
@@ -174,15 +154,14 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'montage:icons',
-  	//'cssmin:combine',
+    'imageoptim:css-sprites',
   	'imagemin:images', /* only this directory so we nedd to use imagemin! */
-    //'imageoptim:css-sprites',
-  	//'concat',
-  	//'uglify',
+  	'uglify',
+    'concat',
   	'ftp-deploy:styles',
   	'ftp-deploy:scripts',
   	'ftp-deploy:images',
-  	//'ftp-deploy:index',
+  	'ftp-deploy:index',
   	'notify:buildTask'
   ]); 
 
