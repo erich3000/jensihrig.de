@@ -5,37 +5,25 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    sass: {
-      dist: {
-        options: {
-          // cssmin will minify later
-          style: 'expanded'
-        },
-        files: {
-		  'css/_tmp/jensihrig.css': 'css/_src/jensihrig.scss',
-        }
-      }
-    },
-    
     montage: {
         icons: {
             files: {
-                "stylesheets/deploy": [
-                    "images/_source/icons/*.png"
+                "css": [
+                    "images/icons/*.png"
                 ]
             },
             options: {
-                size: 26,
+                size: 116,
                 prefix: '.icons',
                 outputImage: "icons.png",
-                outputStylesheet: "../source/icons.css",
+                outputStylesheet: "icons.css",
                 magick: {
                     background: "none"
                 },
                 baseRules: {
                         display: "block",
-                        width: "24px",
-                        height: "24px"
+                        width: "116px;",
+                        height: "116px;"
                 }
             }
         },
@@ -45,8 +33,8 @@ module.exports = function(grunt) {
     cssmin: {
       combine: {
         files: {
-			'css/deploy/jensihrig.min.css': [
-				'css/_tmp/jensihrig.css'		
+			'css/jensihrig.min.css': [
+				'css/jensihrig.css'		
 			]	
         }
       }
@@ -90,7 +78,7 @@ module.exports = function(grunt) {
 		      port: 21,
 		      authKey: 'key'
 		    },
-		    src: 'css/**',
+		    src: 'css',
 		    dest: 'home/css',
 		    exclusions: ['css/**/.DS_Store']
 	  },
@@ -100,9 +88,9 @@ module.exports = function(grunt) {
 		      port: 21,
 		      authKey: 'key'
 		    },
-		    src: 'js/**',
+		    src: 'js',
 		    dest: 'home/js',
-		    exclusions: ['js/deploy/**/.DS_Store']
+		    exclusions: ['js/_source/**/','js/**/.DS_Store']
 	  },  
 	  'images': {
 		    auth: {
@@ -110,10 +98,25 @@ module.exports = function(grunt) {
 		      port: 21,
 		      authKey: 'key'
 		    },
-		    src: 'images/**',
+		    src: 'images',
 		    dest: 'home/images',
-		    exclusions: ['images/.DS_Store']
-	  }
+		    exclusions: ['images/icons/**','images/**/.DS_Store']
+	  },
+	  'index': {
+		    auth: {
+		      host: 'jensihrig.de',
+		      port: 21,
+		      authKey: 'key'
+		    },
+		    src: '.',
+		    dest: 'home',
+		    exclusions: ['/.git','.git/**','.ftppass','.gitignore','.project','index.php','Gruntfile.js','package.json','pinterest-f3d1c.html']
+	  },
+	  
+	  
+	  
+	  
+	  
 
 	},
 	
@@ -169,26 +172,18 @@ module.exports = function(grunt) {
 	
   require('load-grunt-tasks')(grunt);
 
-
-  grunt.registerTask('images', [
-    'imagemin:images',
-  	
-  ]); 
-
-
-
-
   grunt.registerTask('build', [
-  	//'montage:icons',
-  	'sass:dist',
-  	'cssmin:combine',
-  	//'imagemin:images', /* only this directory so we nedd to use imagemin! */
+    'montage:icons',
+  	//'cssmin:combine',
+  	'imagemin:images', /* only this directory so we nedd to use imagemin! */
     //'imageoptim:css-sprites',
   	//'concat',
-  	'uglify',
+  	//'uglify',
   	'ftp-deploy:styles',
   	'ftp-deploy:scripts',
-  	//'ftp-deploy:images',
+  	'ftp-deploy:images',
+  	//'ftp-deploy:index',
+  	'notify:buildTask'
   ]); 
 
 };

@@ -1,0 +1,10 @@
+.icons { display: block; width: 116px; height: 116px; background: url('icons.png') no-repeat; }
+.icons.1pxsolidgold { background-position: 0px 0px; }
+.icons.facebook { background-position: -116px 0px; }
+.icons.foodieyamwoonsen { background-position: -232px 0px; }
+.icons.fotoyamwoonsen { background-position: 0px -116px; }
+.icons.google { background-position: -116px -116px; }
+.icons.linkedin { background-position: -232px -116px; }
+.icons.pinterest { background-position: 0px -232px; }
+.icons.twitter { background-position: -116px -232px; }
+.icons.xing { background-position: -232px -232px; }
