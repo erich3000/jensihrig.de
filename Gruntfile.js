@@ -1,5 +1,8 @@
 
 module.exports = function(grunt) {
+	
+	var ftpHost = 'alfa3076.alfahosting-server.de';
+  var ftpBaseUrl = '/html';
 
   grunt.initConfig({
 
@@ -95,42 +98,42 @@ module.exports = function(grunt) {
 
 	  'styles': {
 		    auth: {
-		      host: 'jensihrig.de',
+		      host: ftpHost,
 		      port: 21,
 		      authKey: 'key'
 		    },
 		    src: 'css',
-		    dest: 'home/css',
+		    dest: ftpBaseUrl +'/css',
 		    exclusions: ['css/**/.DS_Store']
 	  },
 	  'scripts': {
 		    auth: {
-		      host: 'jensihrig.de',
+		      host: ftpHost,
 		      port: 21,
 		      authKey: 'key'
 		    },
 		    src: 'js',
-		    dest: 'home/js',
+		    dest:  ftpBaseUrl + '/js',
 		    exclusions: ['js/_src*','js/_tmp*','js/vendor*','**/.DS_Store']
 	  },  
 	  'images': {
 		    auth: {
-		      host: 'jensihrig.de',
+		      host: ftpHost,
 		      port: 21,
 		      authKey: 'key'
 		    },
 		    src: 'images',
-		    dest: 'home/images',
+		    dest: ftpBaseUrl + '/images',
 		    exclusions: ['images/icons*','images/**/.DS_Store']
 	  },
 	  'index': {
 		    auth: {
-		      host: 'jensihrig.de',
+		      host: ftpHost,
 		      port: 21,
 		      authKey: 'key'
 		    },
 		    src: '.',
-		    dest: 'home',
+		    dest: ftpBaseUrl,
 		    exclusions: ['.git*','.sass-cache*','css*','images*','js*','node_modules*','.ftppass','.gitignore','.project','index.php','Gruntfile.js','package.json','pinterest-f3d1c.html']
 	  },
 
